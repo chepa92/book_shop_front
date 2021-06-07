@@ -27,16 +27,21 @@ export const accountService = {
 function login(email, password) {
     return fetchWrapper.post(`${baseUrl}/signin`, { email, password })
         .then(user => {
+
+            let newUser = [];
+            newUser = user.existingUser;
+            newUser.jwtToken = user.jwtToken;
+            debugger;
             // publish user to subscribers and start timer to refresh token
-            userSubject.next(user);
-            return user;
+            userSubject.next(newUser);
+            return newUser;
         });
 }
 
 function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
     fetchWrapper.post(`${baseUrl}/revoke-token`, {});
-    stopRefreshTokenTimer();
+    //stopRefreshTokenTimer();
     userSubject.next(null);
     history.push('/account/login');
 }
