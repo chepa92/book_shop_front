@@ -15,13 +15,14 @@ function Nav() {
     // only show nav when logged in
     if (!user) return null;
 
+    console.log(user)
     return (
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
                 <div className="navbar-nav">
                     <NavLink exact to="/" className="nav-item nav-link">Home</NavLink>
                     <NavLink to="/profile" className="nav-item nav-link">Profile</NavLink>
-                    {user.role === Role.Admin &&
+                    {user.admin &&
                         <NavLink to="/admin" className="nav-item nav-link">Admin</NavLink>
                     }
                     <a onClick={accountService.logout} className="nav-item nav-link">Logout</a>

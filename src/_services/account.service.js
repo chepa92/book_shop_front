@@ -31,7 +31,6 @@ function login(email, password) {
             let newUser = [];
             newUser = user.existingUser;
             newUser.jwtToken = user.jwtToken;
-            debugger;
             // publish user to subscribers and start timer to refresh token
             userSubject.next(newUser);
             return newUser;
@@ -119,7 +118,6 @@ let refreshTokenTimeout;
 
 function startRefreshTokenTimer() {
     // parse json object from base64 encoded jwt token
-    debugger;
     const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
 
     // set a timeout to refresh the token a minute before it expires

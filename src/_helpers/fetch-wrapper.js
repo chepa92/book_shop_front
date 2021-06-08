@@ -11,7 +11,11 @@ export const fetchWrapper = {
 function get(url) {
     const requestOptions = {
         method: 'GET',
-        headers: authHeader(url)
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
     };
     return fetch(url, requestOptions).then(handleResponse);
 }
@@ -30,6 +34,7 @@ function put(url, body) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...authHeader(url) },
+        credentials: 'include',
         body: JSON.stringify(body)
     };
     return fetch(url, requestOptions).then(handleResponse);    
@@ -39,6 +44,7 @@ function put(url, body) {
 function _delete(url) {
     const requestOptions = {
         method: 'DELETE',
+        credentials: 'include',
         headers: authHeader(url)
     };
     return fetch(url, requestOptions).then(handleResponse);

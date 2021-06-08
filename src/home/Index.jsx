@@ -5,42 +5,43 @@ import { bookService } from '../_services';
 
 function Home({ match }) {
     const { path } = match;
-    const [users, setUsers] = useState(null);
+    const [books, setBooks] = useState(null);
 
     useEffect(() => {
-        bookService.getBooks().then(x => setUsers(x));
+        bookService.getBooks().then(x => setBooks(x));
     }, []);
 
     function deleteUser(id) {
-        setUsers(users.map(x => {
+        setBooks(books.map(x => {
             if (x.id === id) { x.isDeleting = true; }
             return x;
         }));
         bookService.delete(id).then(() => {
-            setUsers(users => users.filter(x => x.id !== id));
+            setBooks(books => books.filter(x => x.id !== id));
         });
     }
 
     return (
         <div>
-            <h1>Users</h1>
-            <p>All users from secure (admin only) api end point:</p>
-            <Link to={`${path}/add`} className="btn btn-sm btn-success mb-2">Add User</Link>
+            <h1>Books</h1>
+            <Link to={`${path}/add`} className="btn btn-sm btn-success mb-2">Add Book</Link>
             <table className="table table-striped">
                 <thead>
                     <tr>
                         <th style={{ width: '30%' }}>Name</th>
-                        <th style={{ width: '30%' }}>Email</th>
-                        <th style={{ width: '30%' }}>Role</th>
+                        <th style={{ width: '30%' }}>Author</th>
+                        <th style={{ width: '30%' }}>Publisher</th>
+                        <th style={{ width: '30%' }}>Price</th>
                         <th style={{ width: '10%' }}></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users && users.map(user =>
+                    {books && books.map(user =>
                         <tr key={user.id}>
-                            <td>{user.title} {user.firstName} {user.lastName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
+                            <td>{user.book}</td>
+                            <td>{user.author}</td>
+                            <td>{user.publisher}</td>
+                            <td>{user.price}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                                 <Link to={`${path}/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
                                 <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger" style={{ width: '60px' }} disabled={user.isDeleting}>
@@ -52,7 +53,7 @@ function Home({ match }) {
                             </td>
                         </tr>
                     )}
-                    {!users &&
+                    {!books &&
                         <tr>
                             <td colSpan="4" className="text-center">
                                 <span className="spinner-border spinner-border-lg align-center"></span>
